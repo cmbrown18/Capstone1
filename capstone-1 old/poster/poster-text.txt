@@ -1,0 +1,46 @@
+= The Basics = 
+Filesystems can be scaled for a userbase from one to thousands of users.
+
+Efficiency of work is often greatly increased by having users access the same files within these systems.
+
+= Problem Definition = 
+While typical access in these systems is legitimate, if security requirements relax, the whole company can be left at risk.
+
+Easy and effective means to protect information and resources must be made available to those responsible for its security. 
+
+= Solution Basics =
+Natural language is the most direct way to input a command, and our program allows for natural input that may perform two tasks:
+1. Implement policies to build secure access
+2. Receive inquiries to grant or deny access to the 
+
+This system will be able to handle everything from simple "user can access filename" statements to fully customized schedules of access based on filetype and environmental time.
+
+= Data Description =
+A given network with subjects, objects, and defined relationships can be interpreted as a directed labeled graph (vertices connected by edges)
+[TODO: Graph here]
+\begin{enumerate}
+    \item $N$ is a finite set of subjects $(S)$ and objects $(O)$, that may include an environmental condition.
+    \item $\Sigma$ is a finite set of relationship types (labels for connections).
+    \item $W$ is a number attached to a relationship between two subjects. This is a percentage of trust between two users.
+    \item $E \subseteq N \times N \times \Sigma \times W$ represents the edges of existing connections, the relationships between subjects and objects, objects and other objects, and represents a general overview of the possible authorized interactions within that network\cite{morovat16}.
+\end{enumerate}
+
+= Solution Specifics =
+Our solution stands as a faithful implementation of Dr. Morovat's own Policy Based Language for Access Control \cite{morovat16}, implementing a "well-formed notation" for specifying access control policies and access authorization requests.
+[TODO: Graphical example of well-formed notation]
+
+Users will define policies and make inquiries in English via an access control interface. 
+It first recognizes usernames and target resources.
+Then it checks against 'Access' words like "Read", "write", and "modify", including common negations. 
+Objects themselves may be referenced by specific filename, general file description, or even referenced by filetype.
+
+Given sentences will be in the format: 
+
+Subject verb object [conditional(time/date)]. 
+[Graphical example of change: "Bob cannot update project-tasks.docx on weekends."]
+
+= Flowchart Description =
+[TODO: A flowchart: user input, breaking up for user/resource recognition, parsing for grammar, access, negation, and output to well-formed format]
+
+= End User Experience =
+Our UI is simple, but flexible, allowing it to be presented within an intranet-based web-application or localized desktop application as companies may wish to have more granular control over its presentation. 
