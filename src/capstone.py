@@ -6,8 +6,8 @@ debuglog = debug()
 debuglog.set_calling_class = "Capstone"
 debuglog.set_debugging(True)
 
-def main():
 
+def main():
     # Load base classes
     controller = Controller()
 
@@ -23,6 +23,7 @@ def main():
                     controller.process_input(inp[1:])
             if not ui.is_finished() and inp[0] == "3":
                 ui.display_processed_info(controller.last_entry)
+
 
 if __name__ == "__main__":
     main()
