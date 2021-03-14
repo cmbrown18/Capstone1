@@ -1,2 +1,5 @@
 
 Rule1 {(X user (name: bob)), (action (name: edit)), (X target_resource (: )), (X target_user (name: breezy casanova))}
+Rule2 {(X user (name: sarah)), (action (name: -edit)), (X target_resource (case: documents)), (X target_user (name: breezy casanova))}
+Rule3 {(X user (name: chris)), (action (name: edit)), (X target_resource (case: documents)), (X target_user (name: )), (Y condition (name: after_5))}
+Rule4 {(X user (name: dakota)), (action (name: edit)), (X target_resource (case: documents)), (X target_user (name: )), (Y condition (name: work))}
