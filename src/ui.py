@@ -106,3 +106,5 @@ class ConsoleUI:
 
     def is_finished(self) -> bool:
         return self.finished
+
+# Adding a random comment so that my commits are different
