@@ -131,7 +131,7 @@ class ConsoleUI:
             print("Modify Users is in the works and will be completed soon!")
             self.prompt_for_users()
         if inp == "3":
-            print("Display Users is in the works and will be completed soon!")
+            users.display_users()
             self.prompt_for_users()
         if inp == "4":
             users.delete_user()

@@ -1,5 +1,6 @@
 # This files contains all of the functions needed to modify the users.xml file
 import xml.etree.ElementTree as ET
+import lxml.etree
 from xml.etree.ElementTree import Element
 
 
@@ -15,8 +16,8 @@ def create_user():
     username_xml = ET.SubElement(root, "username")
     fullname_xml = ET.SubElement(username_xml, "fullname")
 
-    username_xml.text = username + "\n"
-    fullname_xml.text = fullname + "\n"
+    username_xml.text = username
+    fullname_xml.text = fullname
 
     tree.write("users.xml")
 
@@ -41,3 +42,11 @@ def delete_user():
         root.remove(tag)
 
     tree.write("users.xml")
+
+
+def display_users():
+    # Displays all the users
+    tree = lxml.etree.parse("users.xml")
+    pretty = lxml.etree.tostring(tree, encoding="unicode", pretty_print=True)
+
+    print(pretty)
