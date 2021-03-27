@@ -9,7 +9,7 @@ def create_user():
 
     fullname = input("What is the user's full name: ")
 
-    tree = ET.parse("Database/users.xml")
+    tree = ET.parse("users.xml")
     root = tree.getroot()
 
     username_xml = ET.SubElement(root, "username")
@@ -18,7 +18,7 @@ def create_user():
     username_xml.text = username + "\n"
     fullname_xml.text = fullname + "\n"
 
-    tree.write("Database/users.xml")
+    tree.write("users.xml")
 
 def delete():
     # Deletes a user
