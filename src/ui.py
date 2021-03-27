@@ -126,20 +126,15 @@ class ConsoleUI:
             self.finished_prompt = True
         if inp == "1":
             users.create_user()
-
+            self.prompt_for_users()
         if inp == "2":
-            """
-            Calls the Modify User function in user.py
-            """
-
+            print("Modify Users is in the works and will be completed soon!")
+            self.prompt_for_users()
         if inp == "3":
-            """
-            Calls the Display Users function in user.py
-            """
-
+            print("Display Users is in the works and will be completed soon!")
+            self.prompt_for_users()
         if inp == "4":
-            """
-            Calls the Delete users function in user.py
-            """
+            users.delete_user()
+            self.prompt_for_users()
 
         return inp

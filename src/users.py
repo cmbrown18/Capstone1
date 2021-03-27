@@ -20,7 +20,24 @@ def create_user():
 
     tree.write("users.xml")
 
-def delete():
+
+def delete_user():
     # Deletes a user
     user = input("What user do you want to delete: ")
 
+    tree = ET.parse("users.xml")
+    root = tree.getroot()
+
+    remove_list = list()
+
+    for child in root.iter("username"):
+
+        name = child.text
+
+        if user in name:
+            remove_list.append(child)
+
+    for tag in remove_list:
+        root.remove(tag)
+
+    tree.write("users.xml")
