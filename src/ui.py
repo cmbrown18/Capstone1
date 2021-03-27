@@ -1,6 +1,7 @@
 from wordcloud import WordCloud, STOPWORDS
 from reporter import Reporter
 from debuglog import DebugLog as debug
+import users
 
 
 class ConsoleUI:
@@ -12,7 +13,7 @@ class ConsoleUI:
     debuglog.set_debugging(True)
 
     def receive_input(self) -> str:
-        inp = input("\n0: Quit\n1: Create New Rule\n2: Run an Analysis\n3: Processed Info\n>> ")
+        inp = input("\n0: Quit\n1: Create New Rule\n2: Run an Analysis\n3: Processed Info\n4: User Options\n>> ")
         if inp == "0":
             self.finished = True
         if inp == "1":
@@ -24,6 +25,10 @@ class ConsoleUI:
             self.finished_prompt = False
         if inp == "3":
             print("\nProcessed Info\n")
+
+        if inp == "4":
+            self.prompt_for_users()
+
         return inp
 
     def prompt_for_report(self):
@@ -107,4 +112,34 @@ class ConsoleUI:
     def is_finished(self) -> bool:
         return self.finished
 
-# Adding a random comment so that my commits are different
+    def prompt_for_users(self):
+        report = Reporter
+
+        print("\nChoose a User Option:")
+
+        inp = input("0: Back\n1: Create User\
+                                \n2: Modify User \
+                                \n3: Display Users \
+                                \n4: Delete User \
+                                \n>> ")
+        if inp == "0":
+            self.finished_prompt = True
+        if inp == "1":
+            users.create_user()
+
+        if inp == "2":
+            """
+            Calls the Modify User function in user.py
+            """
+
+        if inp == "3":
+            """
+            Calls the Display Users function in user.py
+            """
+
+        if inp == "4":
+            """
+            Calls the Delete users function in user.py
+            """
+
+        return inp
