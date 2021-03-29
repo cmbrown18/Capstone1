@@ -1,0 +1,45 @@
+<!-- DjangoApp/templates/index.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Howdy!</title>
+        <style>
+        .header {
+            background-color: #40A59D;
+            text-align: center;
+            color: white;
+        }
+        .button {
+            background-color: #000000;
+            border: none;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            margin: 4px 2px;
+            width: 25%;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Welcome to our Capstone Project</h1>
+        </div>
+        <button class="button" type="submit" name="create"
+                onclick="window.location.href='/home/create'">
+            Create New Rule
+        </button><br>
+        <button class="button" type="submit" name="run"
+                onclick="window.location.href='/home/analysis'">
+            Run an Analysis
+        </button><br>
+        <button class="button" type="submit" name="proc">
+            Processed Info
+        </button><br>
+        <button class="button" type="submit" name="user"
+                onclick="window.location.href='/home/user'">
+            User Options
+        </button><br>
+    </body>
+</html>

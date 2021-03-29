@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Run an Analysis</title>
+    <style>
+        .header {
+            background-color: #40A59D;
+            text-align: center;
+            color: white;
+        }
+        .button {
+            background-color: #000000;
+            border: none;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            margin: 4px 2px;
+            width: 25%;
+            }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Run an Analysis</h1>
+        <p>Please select an analysis to run:</p>
+    </div>
+        <button class="button" type="submit" name="display">
+            1: Display Last # Rows
+        </button><br>
+        <button class="button" type="submit" name="show">
+            2: Show Functioning Policies
+        </button><br>
+        <button class="button" type="submit" name="polcount">
+            3: Employee Policy Count
+        </button><br>
+        <button class="button" type="submit" name="colerr">
+            4: Column Error Count
+        </button><br>
+        <button class="button" type="submit" name="errors">
+            5: Find Errors
+        </button><br>
+        <button class="button" type="submit" name="sus">
+            6: Find Suspicious Activity
+        </button><br>
+        <button class="button" type="submit" name="wordC">
+            7: Make WordCloud
+        </button><br>
+        <button class="button" type="submit" name="back"
+            onclick="window.location.href='/home/'">
+            0: Back
+        </button><br>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .header {
+            background-color: #40A59D;
+            text-align: center;
+            color: white;
+        }
+        .button {
+            background-color: #000000;
+            border: none;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            margin: 4px 2px;
+            width: 25%;
+            }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>User Options</h1>
+    </div>
+        <button class="button" type="submit" name="creuse"
+                onclick="window.location.href='/home/user/create'">
+            1: Create User
+        </button><br>
+        <button class="button" type="submit" name="moduse"
+                onclick="window.location.href='/home/user/modify'">
+            2: Modify User
+        </button><br>
+        <button class="button" type="submit" name="disuse"
+                onclick="window.location.href='/home/user/display'">
+            3: Display User
+        </button><br>
+        <button class="button" type="submit" name="deluse"
+                onclick="window.location.href='/home/user/delete'">
+            4: Delete User
+        </button><br>
+        <button class="button" type="submit" name="back"
+                onclick="window.location.href='/home/'">
+            0: Back
+        </button><br>
+</body>
+</html>

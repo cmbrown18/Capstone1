@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create User</title>
+    <style>
+        .header {
+            background-color: #40A59D;
+            text-align: center;
+            color: white;
+        }
+        .column{
+            float:left;
+        }
+        .column.side {
+            width: 25%;
+        }
+        .column.middle {
+            width: 50%;
+        }
+        input[type=text], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #000;
+            border-radius: 4px;
+            box-sizing: border-box;
+            }
+
+        input[type=submit] {
+            width: 25%;
+            background-color: #000000;
+            color: white;
+            padding: 10px;
+            margin: 4px 2px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Create User</h1>
+    </div>
+    <div class="column side">
+    </div>
+    <div class="column middle">
+    <form>
+        <label for="user">Username:</label><br>
+        <input type="text" id="user" name="user" aria-setsize="15px"><br>
+        <label for="user">Full Name:</label><br>
+        <input type="text" id="fullname" name="user" aria-setsize="15px"><br>
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+    <div class="column side">
+    </div>
+</body>
+</html>
