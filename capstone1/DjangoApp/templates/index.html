@@ -18,28 +18,35 @@
             text-align: center;
             font-size: 16px;
             margin: 4px 2px;
-            width: 25%;
+            width: 100%;
+        }
+        .content {
+            max-width: 500px;
+            margin: auto;
         }
         </style>
     </head>
     <body>
         <div class="header">
             <h1>Welcome to our Capstone Project</h1>
+            <p>Chris Brown & Dakota Thompson</p>
         </div>
-        <button class="button" type="submit" name="create"
-                onclick="window.location.href='/home/create'">
-            Create New Rule
-        </button><br>
-        <button class="button" type="submit" name="run"
-                onclick="window.location.href='/home/analysis'">
-            Run an Analysis
-        </button><br>
-        <button class="button" type="submit" name="proc">
-            Processed Info
-        </button><br>
-        <button class="button" type="submit" name="user"
-                onclick="window.location.href='/home/user'">
-            User Options
-        </button><br>
+        <div class="content">
+            <button class="button" type="submit" name="create"
+                    onclick="window.location.href='/home/create'">
+                Create New Rule
+            </button><br>
+            <button class="button" type="submit" name="run"
+                    onclick="window.location.href='/home/analysis'">
+                Run an Analysis
+            </button><br>
+            <button class="button" type="submit" name="proc">
+                Processed Info
+            </button><br>
+            <button class="button" type="submit" name="user"
+                    onclick="window.location.href='/home/user'">
+                User Options
+            </button><br>
+        </div>
     </body>
 </html>

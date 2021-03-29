@@ -2,9 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Display User</title>
+    <title>Display Users</title>
+    <style>
+        .header {
+            background-color: #40A59D;
+            text-align: center;
+            color: white;
+        }
+        .content {
+            max-width: 500px;
+            margin: auto;
+        }
+        .button {
+            background-color: #000000;
+            border: none;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            margin: 4px 2px;
+            width: 10%;
+        }
+        table {
+            font-family: arial;
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+        td, th {
+            border: 1px solid #000000;
+            text-align: left;
+            padding: 10px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #BEECE9;
+        }
+    </style>
 </head>
 <body>
-    <h1>Display User</h1>
+    <div class="header">
+        <h1>Display Users</h1>
+    </div>
+    <div class="content">
+        <table>
+            <tr>
+                <td>Username</td>
+                <td>Full Name</td>
+            </tr>
+            <tr>
+                <td>coolguy82</td>
+                <td>Giovanni Rovelli</td>
+
+            </tr>
+        </table>
+    </div>
+    <button class="button" type="submit" name="back"
+            onclick="window.location.href='/home/user'">
+        Back
+    </button><br>
+
 </body>
 </html>

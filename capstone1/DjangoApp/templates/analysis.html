@@ -17,39 +17,45 @@
             text-align: center;
             font-size: 16px;
             margin: 4px 2px;
-            width: 25%;
-            }
+            width: 100%;
+        }
+        .content {
+            max-width: 500px;
+            margin: auto;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>Run an Analysis</h1>
-        <p>Please select an analysis to run:</p>
+        <p>Please Select an Analysis to Run</p>
     </div>
+    <div class="content">
         <button class="button" type="submit" name="display">
-            1: Display Last # Rows
+            Display Last # Rows
         </button><br>
         <button class="button" type="submit" name="show">
-            2: Show Functioning Policies
+            Show Functioning Policies
         </button><br>
         <button class="button" type="submit" name="polcount">
-            3: Employee Policy Count
+            Employee Policy Count
         </button><br>
         <button class="button" type="submit" name="colerr">
-            4: Column Error Count
+            Column Error Count
         </button><br>
         <button class="button" type="submit" name="errors">
-            5: Find Errors
+            Find Errors
         </button><br>
         <button class="button" type="submit" name="sus">
-            6: Find Suspicious Activity
+            Find Suspicious Activity
         </button><br>
         <button class="button" type="submit" name="wordC">
-            7: Make WordCloud
+            Make WordCloud
         </button><br>
         <button class="button" type="submit" name="back"
             onclick="window.location.href='/home/'">
-            0: Back
+            Back
         </button><br>
+    </div>
 </body>
 </html>

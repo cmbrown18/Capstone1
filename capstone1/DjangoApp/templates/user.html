@@ -17,33 +17,40 @@
             text-align: center;
             font-size: 16px;
             margin: 4px 2px;
-            width: 25%;
-            }
+            width: 100%;
+        }
+        .content {
+            max-width: 500px;
+            margin: auto;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>User Options</h1>
+        <p>Please Select from the Following Options:</p>
     </div>
+    <div class="content">
         <button class="button" type="submit" name="creuse"
                 onclick="window.location.href='/home/user/create'">
-            1: Create User
+            Create User
         </button><br>
         <button class="button" type="submit" name="moduse"
                 onclick="window.location.href='/home/user/modify'">
-            2: Modify User
+            Modify User
         </button><br>
         <button class="button" type="submit" name="disuse"
                 onclick="window.location.href='/home/user/display'">
-            3: Display User
+            Display Users
         </button><br>
         <button class="button" type="submit" name="deluse"
                 onclick="window.location.href='/home/user/delete'">
-            4: Delete User
+            Delete User
         </button><br>
         <button class="button" type="submit" name="back"
                 onclick="window.location.href='/home/'">
-            0: Back
+            Back
         </button><br>
+    </div>
 </body>
 </html>
