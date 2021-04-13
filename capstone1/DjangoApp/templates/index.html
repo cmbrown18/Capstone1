@@ -1,33 +1,6 @@
-<!-- DjangoApp/templates/index.html -->
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Howdy!</title>
-        <style>
-        .header {
-            background-color: #40A59D;
-            text-align: center;
-            color: white;
-        }
-        .button {
-            background-color: #000000;
-            border: none;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-size: 16px;
-            margin: 4px 2px;
-            width: 100%;
-        }
-        .content {
-            max-width: 500px;
-            margin: auto;
-        }
-        </style>
-    </head>
-    <body>
-        <div class="header">
+{% extends 'base.html' %}
+    {% block content %}
+    <div class="header">
             <h1>Welcome to our Capstone Project</h1>
             <p>Chris Brown & Dakota Thompson</p>
         </div>
@@ -48,5 +21,4 @@
                 User Options
             </button><br>
         </div>
-    </body>
-</html>
+    {% endblock %}

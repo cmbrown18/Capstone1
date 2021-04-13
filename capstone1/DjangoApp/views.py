@@ -1,36 +1,49 @@
 from django.shortcuts import render
+from .models import Person
+
 
 # Create your views here.
-from django.views.generic import TemplateView
-from django.http import HttpResponse
+# from capstone1.DjangoApp.forms import PolicyForm
 
-# Create your views here.
-class HomePageView(TemplateView):
-    template_name = "index.html"
 
-class AboutPageView(TemplateView):
-    template_name = "about.html"
+def home(request):
+    return render(request, "index.html")
 
-class CreatePageView(TemplateView):
-    template_name = "create.html"
 
-class AnalysisPageView(TemplateView):
-    template_name = "analysis.html"
+def policy(request):
+    rule = request.POST.get('rule')
+    return render(request, "policy.html")
 
-class DisplayPageView(TemplateView):
-    template_name = "display.html"
 
-class UserPageView(TemplateView):
-    template_name = "user.html"
+def analysis(request):
+    return render(request, "analysis.html")
 
-class DisUserPageView(TemplateView):
-    template_name = "dis_user.html"
 
-class CreUserPageView(TemplateView):
-    template_name = "create_user.html"
+def user(request):
+    return render(request, "user.html")
 
-class ModUserPageView(TemplateView):
-    template_name = "mod_user.html"
 
-class DelUserPageView(TemplateView):
-    template_name = "del_user.html"
+def display_user(request):
+    output = Person.objects.all()
+    return render(request, "dis_user.html", {'output': output})
+
+
+def create_user(request):
+    if request.method == 'POST':
+        new_user = Person()
+        new_user.username = request.POST.get('user')
+        new_user.fullname = request.POST.get('fullname')
+        new_user.password = request.POST.get('password')
+        new_user.save()
+    return render(request, "create_user.html")
+
+
+def mod_user(request):
+    return render(request, "mod_user.html")
+
+
+def del_user(request):
+    if request.method == 'POST':
+        query = Person.objects.get(username=request.POST.get('user'))
+        query.delete()
+    return render(request, "del_user.html")

@@ -1,31 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        .header {
-            background-color: #40A59D;
-            text-align: center;
-            color: white;
-        }
-        .button {
-            background-color: #000000;
-            border: none;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-size: 16px;
-            margin: 4px 2px;
-            width: 100%;
-        }
-        .content {
-            max-width: 500px;
-            margin: auto;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
+    {% block content %}
     <div class="header">
         <h1>User Options</h1>
         <p>Please Select from the Following Options:</p>
@@ -52,5 +26,5 @@
             Back
         </button><br>
     </div>
-</body>
-</html>
+    {% endblock %}
+

@@ -1,20 +1,17 @@
 from django.conf.urls import url
 from . import views
+from django.urls import path
 
 
 urlpatterns = [
 
-    #url('', views.home, name='home-page'),
-    #url('about/', views.about, name='about-page'),
+    url('^$', views.home),
+    url('^create/$', views.policy),
+    url('^analysis/$', views.analysis),
+    url('^user/$', views.user),
+    url('^user/display$', views.display_user),
+    url('^user/create$', views.create_user),
+    url('^user/modify$', views.mod_user),
+    url('^user/delete$', views.del_user),
 
-    url('^$', views.HomePageView.as_view()),
-    url('^about/$', views.AboutPageView.as_view()),
-    url('^create/$', views.CreatePageView.as_view()),
-    url('^analysis/$', views.AnalysisPageView.as_view()),
-   #url('^analysis/display', views.DisplayPageView.as_view()),
-    url('^user/$', views.UserPageView.as_view()),
-    url('^user/display$', views.DisUserPageView.as_view()),
-    url('^user/create$', views.CreUserPageView.as_view()),
-    url('^user/modify$', views.ModUserPageView.as_view()),
-    url('^user/delete$', views.DelUserPageView.as_view()),
 ]
