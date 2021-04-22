@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Person
+from .models import Person, Processed
 from .forms import SignUpForm, LoginForm
 from django.contrib.auth import authenticate, login
 from .controller import Controller
@@ -17,13 +17,20 @@ def home(request):
 
 
 def policy(request):
-    rule = request.POST.get('rule')
-    con.process_input(rule)
+    if request.method == 'POST':
+        Processed.objects.all().delete()
+        rule = request.POST.get('rule')
+        con.process_input(rule)
     return render(request, "policy.html")
 
 
 def analysis(request):
     return render(request, "analysis.html")
+
+
+def processed(request):
+    result = Processed.objects.all()
+    return render(request, "processed.html", {'result': result})
 
 
 def user(request):

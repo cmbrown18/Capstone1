@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+    {% block content %}
+    <div class="header">
+        <h1>Last Processed Input</h1>
+    </div>
+    <div class="content">
+         <table>
+            <tr>
+                <td>Word</td>
+                <td>Part of Speech</td>
+                <td>Negation</td>
+                <td>Access</td>
+                <td>Stop Word</td>
+            </tr>
+            {% for item in result %}
+            <tr>
+                <td>{{ item.col_name_word }}</td>
+                <td>{{ item.col_name_pos }}</td>
+                <td>{{ item.col_name_neg }}</td>
+                <td>{{ item.col_name_acc }}</td>
+                <td>{{ item.col_stop_word }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <button class="button2" type="submit" name="back"
+            onclick="window.location.href='/home/'">
+        Back
+    </button><br>
+    {% endblock %}

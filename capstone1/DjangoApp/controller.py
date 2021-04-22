@@ -7,7 +7,7 @@ from .debuglog import DebugLog as debug
 from .accesswords import AccessWords
 from .days import Days
 from .logger import Logger
-
+from .models import Processed
 # TODO: Need file headers
 
 
@@ -149,12 +149,20 @@ class Controller:
             neg = ""
             acc = ""
             stop = ""
-            if self.is_negation_word(grammar[word]):
+            if self.is_negation_word(word):
                 neg = "-"
             if self.is_access_word(word):
                 acc = "*"
             if word in stopwords:
                 stop = "*"
+
+            proc = Processed()
+            proc.col_name_word = word
+            proc.col_name_pos = pos_str
+            proc.col_name_neg = neg
+            proc.col_name_ac = acc
+            proc.col_stop_word = stop
+            proc.save()
             self.last_entry += '\n{0:<{width}} {2:^10} {3:^8} {4:^8} {1:^{width}}'.format(word, pos_str, neg, acc, stop,
                                                                     width=col_width)
 

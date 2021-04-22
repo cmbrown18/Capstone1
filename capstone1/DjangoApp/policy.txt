@@ -5,4 +5,3 @@ Rule3 {(X user (name: chris)), (action (name: edit)), (X target_resource (case: 
 Rule4 {(X user (name: dakota)), (action (name: edit)), (X target_resource (case: documents)), (X target_user (name: )), (Y condition (name: work))}
 Rule5 {(X user (name: dakota)), (action (name: edit)), (X target_resource (case: documents)), (X target_user (name: chris))}
 Rule6 {(X user (name: )), (action (name: -edit)), (X target_resource (case: documents)), (X target_user (name: matthew)), (Y condition (name: pm))}
-Rule7 {(X user (name: sandy)), (action (name: edit)), (X target_resource (case: documents)), (X target_user (name: faith))}
