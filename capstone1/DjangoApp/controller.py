@@ -2,11 +2,11 @@ import spacy
 import sys
 import os
 import re
-from debuglog import DebugLog as debug
+from .debuglog import DebugLog as debug
 
-from accesswords import AccessWords
-from days import Days
-from logger import Logger
+from .accesswords import AccessWords
+from .days import Days
+from .logger import Logger
 
 # TODO: Need file headers
 
@@ -242,7 +242,7 @@ class Controller:
         # Use the with keyword here to let Python close the file even if there's an error.
         # Open the file for binary reading so that we can seek right to the end of the file.
         # This solution is very fast, but can have unintended outcomes due to working with raw bytes in UTF-8.
-        with open('policy.txt', 'rb') as policy_file:
+        with open('DjangoApp/policy.txt', 'rb') as policy_file:
             # First we have to see if there are any bytes in the file.
             # If there aren't any, the file is empty and we don't need to do the following work.
             if(policy_file.read(1) != b''):
@@ -267,7 +267,7 @@ class Controller:
                 new_rule_number = int(rule_number[1]) + 1
 
         # Finally we append the full rule with it's determined rule number to the policy file
-        policy_file = open("./policy.txt", "a+")
+        policy_file = open("DjangoApp/policy.txt", "a+")
         policy_file.write("\nRule" + str(new_rule_number) + " {" + rule + "}")
         policy_file.close()
 

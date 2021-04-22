@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<body>
+<h 1> Login Page</h>
+<form action=""method="POST">
+    {% csrf_token %}
+    {% if error %}
+    {{ error }}
+    {% endif %}}
+    {{ form.as_p}}
+    <input type="submit" name="submit" value="Log in"/>
+</form>
+</body>

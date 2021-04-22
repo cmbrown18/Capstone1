@@ -1,6 +1,6 @@
-from ui import ConsoleUI
-from controller import Controller
-from debuglog import DebugLog as debug
+from .ui import ConsoleUI
+from .controller import Controller
+from .debuglog import DebugLog as debug
 
 debuglog = debug()
 debuglog.set_calling_class = "Capstone"

@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import os
 from pathlib import Path
-from debuglog import DebugLog as debug
+from .debuglog import DebugLog as debug
 
 
 class Logger:
@@ -63,7 +63,7 @@ class Logger:
         # Use the with keyword here to let Python close the file even if there's an error.
         # Open the file for binary reading so that we can seek right to the end of the file.
         # This solution is very fast, but can have unintended outcomes due to working with raw bytes in UTF-8.
-        with open('policy.txt', 'rb') as policy_file:
+        with open('DjangoApp/policy.txt', 'rb') as policy_file:
             # First we have to see if there are any bytes in the file.
             # If there aren't any, the file is empty and we don't need to do the following work.
             if (policy_file.read(1) != b''):

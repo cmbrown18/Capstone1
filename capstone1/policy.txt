@@ -1,0 +1,2 @@
+
+Rule7 {(X user (name: )), (action (name: )), (X target_resource (: )), (X target_user (name: ))}

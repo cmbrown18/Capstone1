@@ -1,7 +1,7 @@
 import pandas as pd
 import math
 import numpy as np
-from debuglog import DebugLog as debug
+from .debuglog import DebugLog as debug
 
 
 class Reporter:
