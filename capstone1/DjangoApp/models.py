@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -5,7 +6,8 @@ from django.db import models
 
 class Person(models.Model):
     username = models.CharField(max_length=250)
-    fullname = models.CharField(max_length=250)
+    first_name = models.CharField(max_length=250)
+    last_name = models.CharField(max_length=250)
     password = models.CharField(max_length=250)
 
 
@@ -15,3 +17,8 @@ class Processed(models.Model):
     col_name_neg = models.CharField(max_length=250)
     col_name_acc = models.CharField(max_length=250)
     col_stop_word = models.CharField(max_length=250)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=250)

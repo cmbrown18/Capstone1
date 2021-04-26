@@ -1,12 +1,21 @@
-<!DOCTYPE html>
-<body>
-<h 1> Login Page</h>
-<form action=""method="POST">
-    {% csrf_token %}
-    {% if error %}
-    {{ error }}
-    {% endif %}}
-    {{ form.as_p}}
-    <input type="submit" name="submit" value="Log in"/>
-</form>
-</body>
+{% extends 'base.html' %}
+    {% block content %}
+    <div class="header">
+        <h1> Login Page</h1>
+    </div>
+    <div class="content">
+        <form action=""method="POST">
+            {% csrf_token %}
+            {% if error %}
+            {{ error }}
+            {% endif %}
+            {{ form.as_p}}
+            <input type="submit" name="submit" value="Log in"
+                onclick="window.location.href='/home/menu'">
+        </form>
+        <button class="button2" type="submit" name="signup"
+                    onclick="window.location.href='/home/signup'">
+                Signup
+        </button><br>
+    </div>
+    {% endblock %}

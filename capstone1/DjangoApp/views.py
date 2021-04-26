@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from .models import Person, Processed
+from .models import Person, Processed, Profile
 from .forms import SignUpForm, LoginForm
 from django.contrib.auth import authenticate, login
 from .controller import Controller
 from .ui import ConsoleUI
+from django.contrib.auth.models import User
 
 # Create your views here.
 # from capstone1.DjangoApp.forms import PolicyForm
@@ -65,28 +66,35 @@ def del_user(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            user.refresh_from_db()
-            user.save()
-            raw_password = form.cleaned_data.get('password1')
-
-            user = authenticate(username=user.username, password=raw_password)
-            login(request, user)
-
-            return redirect('home')
-    else:
-        form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
+        user = User.objects.create_user(request.POST.get('user'),request.POST.get('password'))
+        user.first_nam = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.save()
+    return render(request, "create_user.html")
 
 
 def login(request):
-    uservalue = ""
-    passwordvalue = ""
+    uservalue = ''
+    passwordvalue = ''
+
     form = LoginForm(request.POST or None)
     if form.is_valid():
         uservalue = form.cleaned_data.get("username")
         passwordvalue = form.cleaned_data.get("password")
 
-        user = authenticate
+        user = authenticate(username=uservalue, password=passwordvalue)
+        if user is not None:
+            login(request, user)
+            context = {'form': form,
+                       'error': 'The login has been successful'}
+
+            return render(request, 'login.html', context)
+        else:
+            context = {'form': form,
+                       'error': 'The username and password combination is incorrect'}
+
+            return render(request, 'login.html', context)
+
+    else:
+        context = {'form': form}
+        return render(request, 'login.html', context)

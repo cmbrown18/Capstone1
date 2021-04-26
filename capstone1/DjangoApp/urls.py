@@ -5,9 +5,9 @@ from django.urls import path
 
 urlpatterns = [
 
-    url('^$', views.home),
-    url('^signup$', views.signup, name='signup'),
-    url('^login$', views.login, name='login'),
+    url('^$', views.login),
+    url('^signup$', views.signup),
+    url('^menu$', views.home),
     url('^create/$', views.policy),
     url('^analysis/$', views.analysis),
     url('^processed$', views.processed),
