@@ -66,10 +66,18 @@ def del_user(request):
 
 def signup(request):
     if request.method == 'POST':
-        user = User.objects.create_user(request.POST.get('user'), request.POST.get('password'))
-        user.fullname = request.POST.get('fullname')
-        user.save()
-    return render(request, "signup.html")
+        form = SignUpForm(request.POST)
+        user_info = User.objects.create_user(request.POST.get('username'), request.POST.get('password'))
+        user_info.first_name = request.POST.get('first_name')
+        user_info.last_name = request.POST.get('last_name')
+        user_info.save()
+
+        if form.is_valid():
+            form.save()
+        return redirect("/home")
+    else:
+        form = SignUpForm
+    return render(request, "signup.html", {"form":form})
 
 
 def login(request):

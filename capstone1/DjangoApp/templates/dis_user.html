@@ -7,13 +7,15 @@
         <table>
             <tr>
                 <td>Username</td>
-                <td>Full Name</td>
+                <td>First Name</td>
+                <td>Last Name</td>
                 <td>Password (temp category)</td>
             </tr>
             {% for item in output %}
             <tr>
                 <td>{{ item.username }}</td>
-                <td>{{ item.fullname }}</td>
+                <td>{{ item.first_name }}</td>
+                <td>{{ item.last_name }}</td>
                 <td>{{ item.password }}</td>
             </tr>
             {% endfor %}
