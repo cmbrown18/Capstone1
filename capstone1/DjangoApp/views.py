@@ -39,7 +39,7 @@ def user(request):
 
 
 def display_user(request):
-    output = Person.objects.all()
+    output = User.objects.all()
     return render(request, "dis_user.html", {'output': output})
 
 
@@ -59,18 +59,17 @@ def mod_user(request):
 
 def del_user(request):
     if request.method == 'POST':
-        query = Person.objects.get(username=request.POST.get('user'))
+        query = User.objects.get(username=request.POST.get('user'))
         query.delete()
     return render(request, "del_user.html")
 
 
 def signup(request):
     if request.method == 'POST':
-        user = User.objects.create_user(request.POST.get('user'),request.POST.get('password'))
-        user.first_nam = request.POST.get('first_name')
-        user.last_name = request.POST.get('last_name')
+        user = User.objects.create_user(request.POST.get('user'), request.POST.get('password'))
+        user.fullname = request.POST.get('fullname')
         user.save()
-    return render(request, "create_user.html")
+    return render(request, "signup.html")
 
 
 def login(request):
@@ -82,9 +81,9 @@ def login(request):
         uservalue = form.cleaned_data.get("username")
         passwordvalue = form.cleaned_data.get("password")
 
-        user = authenticate(username=uservalue, password=passwordvalue)
-        if user is not None:
-            login(request, user)
+        username = authenticate(username=uservalue, password=passwordvalue)
+        if username is not None:
+            login(request, username)
             context = {'form': form,
                        'error': 'The login has been successful'}
 
