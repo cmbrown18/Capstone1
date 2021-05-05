@@ -88,10 +88,10 @@ def login(request):
     if form.is_valid():
         uservalue = form.cleaned_data.get("username")
         passwordvalue = form.cleaned_data.get("password")
-
-        username = authenticate(username=uservalue, password=passwordvalue)
-        if username is not None:
-            login(request, username)
+        user = User.objects.get(username=uservalue)
+        #username = authenticate(username=uservalue, password=passwordvalue)
+        if user.check_password(passwordvalue): #is not None:
+            login(request, uservalue)
             context = {'form': form,
                        'error': 'The login has been successful'}
 

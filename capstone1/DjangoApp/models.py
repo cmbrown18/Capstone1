@@ -5,14 +5,15 @@ from django.db import models
 # Create your models here.
 
 class Person(models.Model):
-    username = models.CharField(max_length=250)
+    username = models.CharField(max_length=250, primary_key=True)
     first_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)
     password = models.CharField(max_length=250)
 
 
+
 class Processed(models.Model):
-    col_name_word = models.CharField(max_length=250)
+    col_name_word = models.CharField(max_length=250, primary_key=True)
     col_name_pos = models.CharField(max_length=250)
     col_name_neg = models.CharField(max_length=250)
     col_name_acc = models.CharField(max_length=250)
@@ -20,5 +21,5 @@ class Processed(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=250)
