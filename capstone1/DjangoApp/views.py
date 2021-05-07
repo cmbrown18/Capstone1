@@ -77,7 +77,7 @@ def signup(request):
         return redirect("/home")
     else:
         form = SignUpForm
-    return render(request, "signup.html", {"form":form})
+    return render(request, "signup.html", {"form": form})
 
 
 def login(request):
@@ -88,9 +88,10 @@ def login(request):
     if form.is_valid():
         uservalue = form.cleaned_data.get("username")
         passwordvalue = form.cleaned_data.get("password")
+
         user = User.objects.get(username=uservalue)
-        #username = authenticate(username=uservalue, password=passwordvalue)
-        if user.check_password(passwordvalue): #is not None:
+        print(user.get_username())
+        if user.check_password(raw_password=passwordvalue):  # is not None:
             login(request, uservalue)
             context = {'form': form,
                        'error': 'The login has been successful'}
