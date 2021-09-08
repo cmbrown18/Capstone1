@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from .controller import Controller
 from .ui import ConsoleUI
 from django.contrib.auth.models import User
+from passlib.hash import pbkdf2_sha256
 
 # Create your views here.
 # from capstone1.DjangoApp.forms import PolicyForm
@@ -39,7 +40,7 @@ def user(request):
 
 
 def display_user(request):
-    output = User.objects.all()
+    output = Person.objects.all()
     return render(request, "dis_user.html", {'output': output})
 
 
@@ -59,7 +60,7 @@ def mod_user(request):
 
 def del_user(request):
     if request.method == 'POST':
-        query = User.objects.get(username=request.POST.get('user'))
+        query = Person.objects.get(username=request.POST.get('user'))
         query.delete()
     return render(request, "del_user.html")
 
@@ -67,13 +68,17 @@ def del_user(request):
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
-        user_info = User.objects.create_user(request.POST.get('username'), request.POST.get('password'))
+        user_info = Person()
+        user_info.username = request.POST.get('username')
+
+        password = pbkdf2_sha256.hash(request.POST.get('password', ' '))
+        user_info.password = password
         user_info.first_name = request.POST.get('first_name')
         user_info.last_name = request.POST.get('last_name')
-        user_info.save()
 
         if form.is_valid():
             form.save()
+            user_info.save()
         return redirect("/home")
     else:
         form = SignUpForm
@@ -89,7 +94,7 @@ def login(request):
         uservalue = form.cleaned_data.get("username")
         passwordvalue = form.cleaned_data.get("password")
 
-        user = User.objects.get(username=uservalue)
+        user = Person.objects.get(username=uservalue)
         print(user.get_username())
         if user.check_password(raw_password=passwordvalue):  # is not None:
             login(request, uservalue)
