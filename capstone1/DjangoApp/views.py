@@ -71,14 +71,15 @@ def signup(request):
         user_info = Person()
         user_info.username = request.POST.get('username')
 
-        password = pbkdf2_sha256.hash(request.POST.get('password', ' '))
+        password = pbkdf2_sha256.hash(request.POST.get('password'))
         user_info.password = password
         user_info.first_name = request.POST.get('first_name')
         user_info.last_name = request.POST.get('last_name')
+        user_info.save()
 
         if form.is_valid():
             form.save()
-            user_info.save()
+
         return redirect("/home")
     else:
         form = SignUpForm
@@ -91,17 +92,17 @@ def login(request):
 
     form = LoginForm(request.POST or None)
     if form.is_valid():
-        uservalue = form.cleaned_data.get("username")
+        user_value = form.cleaned_data.get("username")
         passwordvalue = form.cleaned_data.get("password")
+        print(user_value)
+        print(passwordvalue)
 
-        user = Person.objects.get(username=uservalue)
-        print(user.get_username())
-        if user.check_password(raw_password=passwordvalue):  # is not None:
-            login(request, uservalue)
-            context = {'form': form,
-                       'error': 'The login has been successful'}
-
-            return render(request, 'login.html', context)
+        if Person.objects.filter(username=user_value).exists():
+            print("I got into the if statement")
+            person = Person.get_Person
+            if pbkdf2_sha256.verify(passwordvalue, person.password):
+                context = {'form': form, 'error': 'The login has been successful'}
+                return render(request, 'login.html', context)
         else:
             context = {'form': form,
                        'error': 'The username and password combination is incorrect'}

@@ -10,6 +10,18 @@ class Person(models.Model):
     last_name = models.CharField(max_length=250)
     password = models.CharField(max_length=250)
 
+    @property
+    def get_username(self):
+        return self.username
+
+    @property
+    def get_password(self):
+        return self.password
+
+    @property
+    def get_Person(self):
+        if Person.get_username == self.username:
+            return self
 
 
 class Processed(models.Model):
