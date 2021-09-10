@@ -1,27 +1,45 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.base_user import (AbstractBaseUser, BaseUserManager)
 from django.db import models
 
 
 # Create your models here.
 
-class Person(models.Model):
-    username = models.CharField(max_length=250, primary_key=True)
-    first_name = models.CharField(max_length=250)
-    last_name = models.CharField(max_length=250)
-    password = models.CharField(max_length=250)
+class User(AbstractBaseUser):
+    username = models.CharField(verbose_name='username',
+                                max_length=200,
+                                unique=True
+                                )
+    first_name = models.CharField(verbose_name='first name',
+                                  max_length=200,
+                                  unique=False)
+    last_name = models.CharField(verbose_name='last name',
+                                 max_length=200,
+                                 unique=False)
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = []
 
-    @property
     def get_username(self):
         return self.username
 
-    @property
-    def get_password(self):
-        return self.password
+    def get_first_name(self):
+        return self.first_name
 
-    @property
-    def get_Person(self):
-        if Person.get_username == self.username:
-            return self
+    def get_last_name(self):
+        return self.last_name
+
+
+def set_name(user, first, last):
+    user.first_name = first
+    user.last_name = last
+
+
+class UserManager(BaseUserManager):
+    def create_user(self, username, password=None):
+        user = self.model(username=username)
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
 
 class Processed(models.Model):
@@ -30,8 +48,3 @@ class Processed(models.Model):
     col_name_neg = models.CharField(max_length=250)
     col_name_acc = models.CharField(max_length=250)
     col_stop_word = models.CharField(max_length=250)
-
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    name = models.CharField(max_length=250)

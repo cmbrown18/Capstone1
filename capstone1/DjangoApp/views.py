@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Person, Processed, Profile
+from .models import Processed, User, UserManager
 from .forms import SignUpForm, LoginForm
 from django.contrib.auth import authenticate, login
 from .controller import Controller
@@ -87,20 +87,20 @@ def signup(request):
 
 
 def login(request):
-    uservalue = ''
-    passwordvalue = ''
+    user_value = ''
+    password_value = ''
 
     form = LoginForm(request.POST or None)
     if form.is_valid():
         user_value = form.cleaned_data.get("username")
-        passwordvalue = form.cleaned_data.get("password")
+        password_value = form.cleaned_data.get("password")
         print(user_value)
-        print(passwordvalue)
+        print(password_value)
 
         if Person.objects.filter(username=user_value).exists():
             print("I got into the if statement")
-            person = Person.get_Person
-            if pbkdf2_sha256.verify(passwordvalue, person.password):
+            person = Person.get_person
+            if pbkdf2_sha256.verify(password_value, person.password):
                 context = {'form': form, 'error': 'The login has been successful'}
                 return render(request, 'login.html', context)
         else:
