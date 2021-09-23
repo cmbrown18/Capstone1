@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Processed, User, UserManager, set_name
+from .models import Processed, User
 from .forms import SignUpForm, LoginForm
 from .controller import Controller
 from .ui import ConsoleUI
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, UserManager
 
 # Create your views here.
 # from capstone1.DjangoApp.forms import PolicyForm
@@ -64,9 +64,14 @@ def del_user(request):
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
-        user_info = UserManager.create_user(UserManager(), request.POST.get('username'), request.POST.get('password'))
 
-        set_name(user_info, request.POST.get('first_name'), request.POST.get('last_name'))
+        user_info = User()
+
+        user_info.username = request.POST.get('username')
+        user_info.set_password(request.POST.get('password2'))
+        user_info.first_name = request.POST.get('first_name')
+        user_info.last_name = request.POST.get('last_name')
+
         user_info.save()
 
         if form.is_valid():
@@ -92,7 +97,10 @@ def login(request):
         if User.objects.filter(username=user_value).exists():
             print("I got into the if statement")
             the_user = User.objects.get(username=user_value)
-            if the_user.check_password(password_value):
+
+            print(the_user.get_username())
+            print(the_user.check_password(raw_password=password_value))
+            if the_user.check_password(raw_password=password_value):
                 context = {'form': form, 'error': 'The login has been successful'}
                 return render(request, 'index.html', context)
             else:
@@ -103,4 +111,3 @@ def login(request):
     else:
         context = {'form': form}
         return render(request, 'login.html', context)
-

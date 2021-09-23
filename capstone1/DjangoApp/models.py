@@ -33,15 +33,6 @@ def set_name(user, first, last):
     user.last_name = last
 
 
-class UserManager(BaseUserManager):
-    def create_user(self, username, password=None):
-        user = self.model(username=username)
-
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-
 class Processed(models.Model):
     col_name_word = models.CharField(max_length=250, primary_key=True)
     col_name_pos = models.CharField(max_length=250)
