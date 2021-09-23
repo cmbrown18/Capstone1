@@ -91,15 +91,10 @@ def login(request):
     if form.is_valid():
         user_value = form.cleaned_data.get("username")
         password_value = form.cleaned_data.get("password")
-        print(user_value)
-        print(password_value)
 
         if User.objects.filter(username=user_value).exists():
-            print("I got into the if statement")
             the_user = User.objects.get(username=user_value)
 
-            print(the_user.get_username())
-            print(the_user.check_password(raw_password=password_value))
             if the_user.check_password(raw_password=password_value):
                 context = {'form': form, 'error': 'The login has been successful'}
                 return render(request, 'index.html', context)
