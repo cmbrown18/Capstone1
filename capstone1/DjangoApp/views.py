@@ -10,6 +10,7 @@ from django.contrib.auth.models import User, UserManager
 
 con = Controller()
 ui = ConsoleUI()
+logged_in = None
 
 
 def home(request):
@@ -97,6 +98,8 @@ def login(request):
 
             if the_user.check_password(raw_password=password_value):
                 context = {'form': form, 'error': 'The login has been successful'}
+                global logged_in
+                logged_in = the_user
                 return render(request, 'index.html', context)
             else:
                 context = {'form': form, 'error': 'The username and password combination is incorrect'}
