@@ -1,0 +1,2 @@
+
+Rule1 {(X user (name: chris)), (action (name: )), (X target_resource (case: documents)), (X target_user (name: faith))}
