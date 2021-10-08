@@ -21,7 +21,7 @@ class Controller:
         self.nlp = spacy.load("en_core_web_sm")
         self.last_entry = ""
 
-    def process_input(self, inp: str) -> None:
+    def process_input(self, inp: str, user: str) -> None:
         # Load core reference
         logger = Logger()
 
@@ -45,7 +45,7 @@ class Controller:
         logger.log(rule, inp)
 
         rule = self.format_rule(rule)
-        self.write_to_file(rule)
+        self.write_to_file(rule, user)
 
     
     def split_input(self, inp: list) -> str:
@@ -241,7 +241,7 @@ class Controller:
         return rule
 
 
-    def write_to_file(self, rule: str) -> None:
+    def write_to_file(self, rule: str, user: str) -> None:
         """
         Prints the policy rule to the policy file
         """
@@ -250,7 +250,9 @@ class Controller:
         # Use the with keyword here to let Python close the file even if there's an error.
         # Open the file for binary reading so that we can seek right to the end of the file.
         # This solution is very fast, but can have unintended outcomes due to working with raw bytes in UTF-8.
-        with open('DjangoApp/policy.txt', 'rb') as policy_file:
+        userfile = 'DjangoApp/Policies/' + user + '.txt'
+        open(userfile, 'a')
+        with open(userfile, 'rb') as policy_file:
             # First we have to see if there are any bytes in the file.
             # If there aren't any, the file is empty and we don't need to do the following work.
             if(policy_file.read(1) != b''):
@@ -275,7 +277,7 @@ class Controller:
                 new_rule_number = int(rule_number[1]) + 1
 
         # Finally we append the full rule with it's determined rule number to the policy file
-        policy_file = open("DjangoApp/policy.txt", "a+")
+        policy_file = open(userfile, "a+")
         policy_file.write("\nRule" + str(new_rule_number) + " {" + rule + "}")
         policy_file.close()
 
