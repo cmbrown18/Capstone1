@@ -13,10 +13,16 @@ ui = ConsoleUI()
 
 
 def home(request):
+    """
+    Returns the home page
+    """
     return render(request, "index.html")
 
 
 def policy(request):
+    """
+    Policy accepts a natural sentence and sends it to the NLP
+    """
     if request.method == 'POST':
         Processed.objects.all().delete()
         rule = request.POST.get('rule')
@@ -25,24 +31,43 @@ def policy(request):
 
 
 def analysis(request):
+    """
+    Returns the analysis page
+    """
     return render(request, "analysis.html")
 
 
 def processed(request):
+    """
+    Returns all the processed data along with the site for processed data
+    """
     result = Processed.objects.all()
     return render(request, "processed.html", {'result': result})
 
 
 def user(request):
+    """
+    Returns the user menu
+    """
     return render(request, "user.html")
 
 
 def display_user(request):
+    """
+    Displays a well formatted version of all the current users
+        that are signed up with this project
+    """
     output = User.objects.all()
     return render(request, "dis_user.html", {'output': output})
 
 
 def create_user(request):
+    """
+    TODO: We need to talk about if this can be deleted or not I think it can be because we can create users in the signup
+        and have no real reason to create them any other way.
+
+    Creates a user from the user menu and saves it to the models database
+    """
     if request.method == 'POST':
         new_user = UserManager.create_user(request.POST.get('user'), request.POST.get('password'))
         new_user.fullname = request.POST.get('fullname')
@@ -51,10 +76,22 @@ def create_user(request):
 
 
 def mod_user(request):
+    """
+    TODO: We need to actually set this up if we wanna use it to modify users. If we do this we will need to remember
+        to modify their user policy file's name as well. Might be a little annoying but functional to use later and would
+        be cool to show that this works.
+
+    Modifies the user in the database and changes everything that regards to said user
+    """
     return render(request, "mod_user.html")
 
 
 def del_user(request):
+    """
+    Deletes the user based off the username
+
+    TODO: Might not be a bad idea here to check if they have a policy file and delete that as well. Food for Thought
+    """
     if request.method == 'POST':
         query = User.objects.get(username=request.POST.get('user'))
         query.delete()
@@ -62,6 +99,10 @@ def del_user(request):
 
 
 def signup(request):
+    """
+    Returns the signup pages, creates a user with all of the fields filled in.
+    """
+
     if request.method == 'POST':
         form = SignUpForm(request.POST)
 
@@ -84,6 +125,11 @@ def signup(request):
 
 
 def login(request):
+    """
+    Returns the login form and checks if the user exists then checks the password to make sure it is right,
+        if it is right then it returns to the menu page.
+    """
+
     user_value = ''
     password_value = ''
 
@@ -106,3 +152,5 @@ def login(request):
     else:
         context = {'form': form}
         return render(request, 'login.html', context)
+
+# def user_request(request):
