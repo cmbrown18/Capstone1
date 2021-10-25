@@ -56,6 +56,36 @@ class Controller:
             requests file.
         """
 
+        # Load core reference
+        logger = Logger()
+
+        # Process input
+        processed_input = self.split_input(inp)
+
+        ## The call nlp() uses the default model. To speed things up, we may want to define our own model
+        tokens = self.nlp(processed_input)
+
+        # Build the grammar
+        grammar = self.get_grammar(tokens)
+
+        #################
+        # Some where in here i think we need to figure out
+        #   how to flip some stuff around to check the target
+        #   user's policy file.
+        #################
+
+        # Scan for target_resource
+        target = self.get_target_resource(grammar)
+
+        # Print out column display to demonstrate processing
+        self.print_column_display(grammar)
+
+        # Generate rule and write to files
+        rule = self.get_rule(grammar, target)
+        logger.log(rule, inp)
+
+        rule = self.format_rule(rule)
+
     def split_input(self, inp: list) -> str:
         """
         Recieve command line input, search for errors, and split the input on
