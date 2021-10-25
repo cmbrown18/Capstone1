@@ -8,11 +8,12 @@ from .accesswords import AccessWords
 from .days import Days
 from .logger import Logger
 from .models import Processed
+
+
 # TODO: Need file headers
 
 
 class Controller:
-
     debuglog = debug()
     debuglog.set_calling_class = "Controller"
     debuglog.set_debugging(True)
@@ -21,7 +22,7 @@ class Controller:
         self.nlp = spacy.load("en_core_web_sm")
         self.last_entry = ""
 
-    def process_input(self, inp: str) -> None:
+    def process_input(self, inp: str, user: str) -> None:
         # Load core reference
         logger = Logger()
 
@@ -45,9 +46,8 @@ class Controller:
         logger.log(rule, inp)
 
         rule = self.format_rule(rule)
-        self.write_to_file(rule)
+        self.write_to_file(rule, user)
 
-    
     def split_input(self, inp: list) -> str:
         """
         Recieve command line input, search for errors, and split the input on
@@ -60,29 +60,25 @@ class Controller:
             inp = inp[1:]
         return str(inp)
 
-
     def get_target_resource(self, inp: dict) -> dict:
         """
         If a specific file referenced, search locally for the file, confirm it exists, and append:
         (X target_resource (name: document))
-
         If a specific folder referenced, search locally for the folder, confirm it exists, and append:
         (X target_resource (case: folder))
-
         If no specific file or folder, but items of that type exist in directory, append:
         (X target_resource (case: filetype))
         """
         local_dir = '../resources'
         files = [file.path.split('\\')[-1] for file in os.scandir(local_dir) if file.is_file()]
         folders = ["../resources/" + folder.path.split('\\')[-1] for folder in os.scandir(local_dir) if
-                         folder.is_dir()]
-        
+                   folder.is_dir()]
+
         for folder in folders:
             new_files = [file.path.split('\\')[-1] for file in os.scandir(folder) if file.is_file()]
             for f in new_files:
                 files.append(f)
-                
-        
+
         exts = [file.split('.')[-1] for file in files]
         folderNames = [folder.split('/')[-1] for folder in folders]
 
@@ -115,7 +111,6 @@ class Controller:
         resource_data[target] = target_type
         return resource_data
 
-
     def print_column_display(self, grammar: dict) -> None:
         """
         Prints a human readable column display of the input policy or query
@@ -137,11 +132,11 @@ class Controller:
         # Initialize spacy stop words list
         stopwords = self.nlp.Defaults.stop_words
 
-
         # Building the columns
         self.last_entry = '{0:<{width}} {2:^10} {3:^8} {4:^8} {1:^{width}}'.format(col_name_word, col_name_pos,
-                                                                col_name_neg, col_name_acc, col_stop_word,
-                                                                width=col_width)
+                                                                                   col_name_neg, col_name_acc,
+                                                                                   col_stop_word,
+                                                                                   width=col_width)
         # Fill out the columns
         pos_index = 1
         for word in grammar:
@@ -164,8 +159,7 @@ class Controller:
             proc.col_stop_word = stop
             proc.save()
             self.last_entry += '\n{0:<{width}} {2:^10} {3:^8} {4:^8} {1:^{width}}'.format(word, pos_str, neg, acc, stop,
-                                                                    width=col_width)
-
+                                                                                          width=col_width)
 
     def get_grammar(self, tokens: list) -> dict:
         """
@@ -174,7 +168,7 @@ class Controller:
         # SpaCy can find tokens and parts of speech at the same time
         grammar = {}
 
-        #for ent in tokens.ents:
+        # for ent in tokens.ents:
         #    print(ent.text, ent.label_)
 
         # Creates a dictionary with keys being the input words and their values being that input
@@ -186,27 +180,24 @@ class Controller:
                                            token.ent_type_.lower()]
 
         # Find punctuation in the grammar
-        #words_to_remove = []
-        #for word in grammar:
+        # words_to_remove = []
+        # for word in grammar:
         #    if 'punct' in grammar[word]:
         #        words_to_remove.append(word)
 
         # Remove punctuation in the grammar
-        #for word in words_to_remove:
+        # for word in words_to_remove:
         #    del grammar[word]
 
         return grammar
-
 
     def get_syntax_long(self, grammar: dict) -> dict:
         """ Placeholder function to help set up PyTest"""
         return grammar
 
-
     def get_syntax_short(self, syn_long: dict) -> dict:
         """ Placeholder function to help set up PyTest"""
         return syn_long
-
 
     def get_rule(self, syn_short: dict, target_res: dict) -> dict:
         """
@@ -214,15 +205,14 @@ class Controller:
         in order to create the final rule dictionary.
         """
         rule = {}
-        rule['acting_user'] = self.get_affected_user(syn_short) #The 'Bob' in 'Bob can access my documents'
+        rule['acting_user'] = self.get_affected_user(syn_short)  # The 'Bob' in 'Bob can access my documents'
         rule['action'] = self.get_access_action(syn_short)
         rule['res'] = list(target_res.keys())[0]
         rule['res_type'] = target_res[rule['res']]
-        rule['target_user'] = self.get_target_user(syn_short) #The 'my' in 'Bob can access my documents'
+        rule['target_user'] = self.get_target_user(syn_short)  # The 'my' in 'Bob can access my documents'
         rule['conditions'] = self.get_conditions(syn_short)
         return rule
 
-    
     def format_rule(self, rule: dict) -> str:
         """
         Formats the rule dictionary into a single well formed String
@@ -231,7 +221,7 @@ class Controller:
         action_seg = ', (action (name: {}))'.format(rule['action'])
         res_seg = ', (X target_resource ({}: {}))'.format(rule['res_type'], rule['res'])
         target_user_seg = ', (X target_user (name: {}))'.format(rule['target_user'])
-        
+
         # There may be more than one condition
         conditions_seg = ""
         for condition in rule['conditions']:
@@ -240,8 +230,7 @@ class Controller:
         rule = user_seg + action_seg + res_seg + target_user_seg + conditions_seg
         return rule
 
-
-    def write_to_file(self, rule: str) -> None:
+    def write_to_file(self, rule: str, user: str) -> None:
         """
         Prints the policy rule to the policy file
         """
@@ -250,10 +239,12 @@ class Controller:
         # Use the with keyword here to let Python close the file even if there's an error.
         # Open the file for binary reading so that we can seek right to the end of the file.
         # This solution is very fast, but can have unintended outcomes due to working with raw bytes in UTF-8.
-        with open('DjangoApp/policy.txt', 'rb') as policy_file:
+        userfile = 'DjangoApp/Policies/' + user + '.txt'
+        open(userfile, 'a')
+        with open(userfile, 'rb') as policy_file:
             # First we have to see if there are any bytes in the file.
             # If there aren't any, the file is empty and we don't need to do the following work.
-            if(policy_file.read(1) != b''):
+            if (policy_file.read(1) != b''):
 
                 # Seek to the end of the file offset by -2 bytes. So os.SEEK_CUR is now 2 bytes from the end of the file.
                 policy_file.seek(-2, os.SEEK_END)
@@ -275,10 +266,9 @@ class Controller:
                 new_rule_number = int(rule_number[1]) + 1
 
         # Finally we append the full rule with it's determined rule number to the policy file
-        policy_file = open("DjangoApp/policy.txt", "a+")
+        policy_file = open(userfile, "a+")
         policy_file.write("\nRule" + str(new_rule_number) + " {" + rule + "}")
         policy_file.close()
-
 
     def get_access_action(self, grammar: dict) -> str:
         """
@@ -299,7 +289,6 @@ class Controller:
                     break
         return access
 
-
     def get_target_user(self, grammar: dict) -> str:
         """
         Searches a dictionary of words to identify if it contains a target user.
@@ -308,10 +297,10 @@ class Controller:
         """
         target = ""
         for word in grammar:
-            checkPoss = 'poss'  in grammar[word]
+            checkPoss = 'poss' in grammar[word]
             checkPropObj = 'dobj' in grammar[word] or 'compound' in grammar[word] or 'nmod' in grammar[word]
             checkPropN = 'propn' in grammar[word]
-            
+
             if checkPoss or (checkPropN and checkPropObj):
                 if word == 'my':
                     home_dir = os.path.expanduser('~')
@@ -321,7 +310,6 @@ class Controller:
                 break
         return target.lower()
 
-
     def get_affected_user(self, grammar: dict) -> str:
         """
         Searches a dictionary of words to identify if it contains an affected user.
@@ -330,11 +318,11 @@ class Controller:
         """
         affected = ""
         for word in grammar:
-            if('propn' in grammar[word]):
+            if ('propn' in grammar[word]):
                 if ('nsubj' in grammar[word]) or ('nsubjpass' in grammar[word]) or ('pobj' in grammar[word]):
                     affected = word
                     break
-            elif('pron' in grammar[word] and 'nsubj' in grammar[word]):
+            elif ('pron' in grammar[word] and 'nsubj' in grammar[word]):
                 home_dir = os.path.expanduser('~')
                 affected = home_dir.split("\\")[-1]
         return affected.lower()
@@ -349,35 +337,34 @@ class Controller:
         preposition = ""
         for word in grammar:
             pos_list = grammar[word]
-            
+
             # Check to see if the word is a weekday
-            if('weekday' in pos_list):
+            if ('weekday' in pos_list):
                 weekdays = (getattr(Days, "weekdays").value)
                 for day in weekdays:
                     conditions.append(day)
-            
+
             # Check to see if the word is a weekend
-            if('weekend' in pos_list):
+            if ('weekend' in pos_list):
                 weekends = (getattr(Days, "weekends").value)
                 for day in weekends:
                     conditions.append(day)
-            
+
             # Check to see if the word is a day. The parts of speech for a day can be quite complex
-            if((('propn' in pos_list or 'noun' in pos_list) and ('pobj' in pos_list or 'date' in pos_list))\
-                and not conditions.__contains__(word)):
+            if ((('propn' in pos_list or 'noun' in pos_list) and ('pobj' in pos_list or 'date' in pos_list)) \
+                    and not conditions.__contains__(word)):
                 conditions.append(grammar[word][2])
-            
+
             # Check to see if there is a prepositional time range being specified
-            if('before' in pos_list or 'after' in pos_list):
+            if ('before' in pos_list or 'after' in pos_list):
                 preposition = word
-            
+
             # Check to see if the word is a time and prepend the prepositional argument
-            if('num' in pos_list and 'pobj' in pos_list):
-                if('time' in pos_list and len(word) < 5):
+            if ('num' in pos_list and 'pobj' in pos_list):
+                if ('time' in pos_list and len(word) < 5):
                     word = "0" + word
                 conditions.append("{}_{}".format(preposition, word))
         return conditions
-
 
     def is_access_word(self, word: str) -> bool:
         """
@@ -388,7 +375,6 @@ class Controller:
         if word in access_words:
             has_access = True
         return has_access
-
 
     def has_negation(self, grammar: dict) -> bool:
         """
@@ -401,10 +387,8 @@ class Controller:
                 break
         return negation_exists
 
-
     def is_negation_word(self, word: list) -> bool:
         """
         Identifies whether a word is a negation
         """
         return 'neg' in word
-

@@ -10,6 +10,7 @@ from django.contrib.auth.models import User, UserManager
 
 con = Controller()
 ui = ConsoleUI()
+global the_user
 
 
 def home(request):
@@ -20,8 +21,20 @@ def policy(request):
     if request.method == 'POST':
         Processed.objects.all().delete()
         rule = request.POST.get('rule')
-        con.process_input(rule)
+        userval = the_user.get_username()
+        con.process_input(rule, userval)
+
     return render(request, "policy.html")
+
+
+def requests(request):
+    if request.method == 'POST':
+        Processed.objects.all().delete()
+        req = request.POST.get('req')
+        userval = the_user.get_username()
+        print(userval, req)
+
+    return render(request, "requests.html")
 
 
 def analysis(request):
@@ -93,10 +106,12 @@ def login(request):
         password_value = form.cleaned_data.get("password")
 
         if User.objects.filter(username=user_value).exists():
+            global the_user
             the_user = User.objects.get(username=user_value)
 
             if the_user.check_password(raw_password=password_value):
                 context = {'form': form, 'error': 'The login has been successful'}
+
                 return render(request, 'index.html', context)
             else:
                 context = {'form': form, 'error': 'The username and password combination is incorrect'}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+    {% block content %}
+    <div class="header">
+        <h1>Create a New Request</h1>
+        <p>Please Fill the Following:</p>
+    </div>
+    <div class="content">
+        <form name="policy" action="." method="POST">
+            {% csrf_token %}
+            <label for="req">New Request:</label> <br>
+            <input type="text" id="req" name="req" aria-setsize="15px"> <br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <button class="button2" type="submit" name="back"
+            onclick="window.location.href='/home/menu'">
+        Back
+    </button><br>
+    {% endblock %}

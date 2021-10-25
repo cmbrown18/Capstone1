@@ -9,6 +9,7 @@ urlpatterns = [
     url('^signup$', views.signup),
     url('^menu$', views.home),
     url('^create/$', views.policy),
+    url('^request/$', views.requests),
     url('^analysis/$', views.analysis),
     url('^processed$', views.processed),
     url('^user/$', views.user),
