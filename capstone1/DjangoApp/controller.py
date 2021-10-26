@@ -56,13 +56,21 @@ class Controller:
             requests file.
         """
 
+        # This will keep a copy of the original input since we will be manipulating it to reflect the target user's
+        #   own policies to check against the original request to see if it is needed to send a message to the target
+        #   user or not.
+        inp_copy = inp
+
         # Load core reference
         logger = Logger()
 
         # Process input
         processed_input = self.split_input(inp)
 
-        ## The call nlp() uses the default model. To speed things up, we may want to define our own model
+        print("This is the processed input")
+        print(processed_input)
+
+        # The call nlp() uses the default model. To speed things up, we may want to define our own model
         tokens = self.nlp(processed_input)
 
         # Build the grammar
@@ -85,6 +93,9 @@ class Controller:
         logger.log(rule, inp)
 
         rule = self.format_rule(rule)
+
+        print("This is the rule after going through the controller:")
+        print(rule)
 
     def split_input(self, inp: list) -> str:
         """

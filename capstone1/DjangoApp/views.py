@@ -32,7 +32,7 @@ def requests(request):
         Processed.objects.all().delete()
         req = request.POST.get('req')
         userval = the_user.get_username()
-        print(userval, req)
+        con.process_request(req, userval)
 
     return render(request, "requests.html")
 
