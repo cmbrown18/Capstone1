@@ -13,6 +13,7 @@ from .models import Processed
 # TODO: Need file headers
 
 
+
 class Controller:
     debuglog = debug()
     debuglog.set_calling_class = "Controller"
@@ -42,9 +43,9 @@ class Controller:
         self.print_column_display(grammar)
 
         # Generate rule and write to files
-        rule = self.get_rule(grammar, target)
+        rule = self.get_rule(grammar, target, user, True)
         logger.log(rule, inp)
-
+        print(rule)
         rule = self.format_rule(rule)
         self.write_to_file(rule, user)
 
@@ -88,8 +89,8 @@ class Controller:
         # Print out column display to demonstrate processing
         self.print_column_display(grammar)
 
-        # Generate rule and write to files
-        rule = self.get_rule(grammar, target)
+        # Generate rule
+        rule = self.get_rule(grammar, target, user, False)
         logger.log(rule, inp)
 
         rule = self.format_rule(rule)
@@ -248,17 +249,22 @@ class Controller:
         """ Placeholder function to help set up PyTest"""
         return syn_long
 
-    def get_rule(self, syn_short: dict, target_res: dict) -> dict:
+    def get_rule(self, syn_short: dict, target_res: dict, username, bool) -> dict:
         """
         Uses combines the contents of the grammar dictionary and the resource dictionary
         in order to create the final rule dictionary.
         """
         rule = {}
-        rule['acting_user'] = self.get_affected_user(syn_short)  # The 'Bob' in 'Bob can access my documents'
+        if bool:
+            rule['acting_user'] = self.get_affected_user(syn_short)  # The 'Bob' in 'Bob can access my documents'
+            rule['target_user'] = username   # The 'my' in 'Bob can access my documents'
+        else:
+            rule['acting_user'] = username  # The 'I' in 'I want to read Bob's Documents
+            rule['target_user'] = self.get_target_user(syn_short)  # The 'Bob' in 'I want to read Bob's Documents
+
         rule['action'] = self.get_access_action(syn_short)
         rule['res'] = list(target_res.keys())[0]
         rule['res_type'] = target_res[rule['res']]
-        rule['target_user'] = self.get_target_user(syn_short)  # The 'my' in 'Bob can access my documents'
         rule['conditions'] = self.get_conditions(syn_short)
         return rule
 
@@ -374,6 +380,11 @@ class Controller:
             elif ('pron' in grammar[word] and 'nsubj' in grammar[word]):
                 home_dir = os.path.expanduser('~')
                 affected = home_dir.split("\\")[-1]
+            elif ('nsubj' in grammar[word]):
+                # for now, if its detected as a nsubj, set it. Later we need to check if the string is a known username
+                affected = word
+                break
+
         return affected.lower()
 
     def get_conditions(self, grammar: dict) -> list:
