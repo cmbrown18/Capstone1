@@ -11,10 +11,11 @@ from .models import Processed
 
 
 # TODO: Need file headers
-
+global user_list
 
 
 class Controller:
+
     debuglog = debug()
     debuglog.set_calling_class = "Controller"
     debuglog.set_debugging(True)
@@ -23,7 +24,9 @@ class Controller:
         self.nlp = spacy.load("en_core_web_sm")
         self.last_entry = ""
 
-    def process_input(self, inp: str, user: str) -> None:
+    def process_input(self, inp: str, user: str, all_users) -> None:
+        global user_list
+        user_list = all_users
         # Load core reference
         logger = Logger()
 
@@ -371,6 +374,7 @@ class Controller:
         If the dictionary has an affected user, this function returns that user
         if it doesn't, it returns an empty string.
         """
+        global user_list
         affected = ""
         for word in grammar:
             if ('propn' in grammar[word]):
@@ -380,10 +384,11 @@ class Controller:
             elif ('pron' in grammar[word] and 'nsubj' in grammar[word]):
                 home_dir = os.path.expanduser('~')
                 affected = home_dir.split("\\")[-1]
-            elif ('nsubj' in grammar[word]):
-                # for now, if its detected as a nsubj, set it. Later we need to check if the string is a known username
-                affected = word
-                break
+            elif user_list is not None:
+                # see if username is registered, if it is, add as affected user
+                if user_list.filter(username=word).exists():
+                    affected = word
+                    break
 
         return affected.lower()
 

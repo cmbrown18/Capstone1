@@ -22,7 +22,7 @@ def policy(request):
         Processed.objects.all().delete()
         rule = request.POST.get('rule')
         userval = the_user.get_username()
-        con.process_input(rule, userval)
+        con.process_input(rule, userval, User.objects)
 
     return render(request, "policy.html")
 
